@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<!-- Use WinExe for Windows Forms application -->
+		<TargetFramework>net7.0-windows</TargetFramework>
+		<!-- Target .NET 7 with Windows-specific support -->
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<!-- Enable Windows Forms -->
+	</PropertyGroup>
+
+	<ItemGroup>
+		<COMReference Include="{215d64d2-031c-33c7-96e3-61794cd1ee61}">
+			<WrapperTool>tlbimp</WrapperTool>
+			<VersionMinor>4</VersionMinor>
+			<VersionMajor>2</VersionMajor>
+			<Guid>215d64d2-031c-33c7-96e3-61794cd1ee61</Guid>
+		</COMReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CsvHelper" Version="33.0.1" />
+		<PackageReference Include="WinForms.DataVisualization" Version="1.8.0" />
+	</ItemGroup>
+
+</Project>
