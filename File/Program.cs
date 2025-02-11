@@ -24,7 +24,7 @@ class Program
 
     static void Main()
     {
-        //// Step 1: Read the file using CsvHelper package
+        /// Step 1: Read the file using CsvHelper package
         //var records = ReadCsvFile(MBCEXIPricesFilePath);
 
         //// Step 2: Prepare data for charting
