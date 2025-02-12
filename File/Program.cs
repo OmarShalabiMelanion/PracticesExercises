@@ -73,7 +73,7 @@ class Program
         chart.Width = 1200;  // Set the width of the chart image
         chart.Height = 800;  // Set the height of the chart image
 
-        Series series = new Series("MBCEXI Price"); //set of data points
+        Series series = new Series("MBCEXI Price"); //set of data pointss
         series.ChartType = SeriesChartType.Line; //line chart
         series.Color = Color.Red;
 
