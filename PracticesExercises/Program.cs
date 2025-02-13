@@ -18,8 +18,8 @@ class Program
     /// 1. Find the minimum, maximum, and average closing price for each stock over the week.
     /// 2. Calculate the overall weekly performance (%) for each contract using the formula:
     ///    Performance (%) = ((Last Closing Price - First Closing Price) / First Closing Price) * 100
-    /// 3. Identify the stocl with the highest weekly performance.
-    /// 4. Identify the most volatile stoc (highest difference between max and min price).
+    /// 3. Identify the stock with the highest weekly performance.
+    /// 4. Identify the most volatile stock (highest difference between max and min price).
 
 
     static void Main()
@@ -61,6 +61,84 @@ class Program
             new Stock { Symbol = "CL", Date = new DateTime(2024, 2, 4), ClosePrice = 77.00 },
             new Stock { Symbol = "CL", Date = new DateTime(2024, 2, 5), ClosePrice = 78.50 }
         };
+
+        /// 1. Find the minimum, maximum, and average closing price for each stock over the week.
+        /// 2. Calculate the overall weekly performance (%) for each contract using the formula:
+        ///    Performance (%) = ((Last Closing Price - First Closing Price) / First Closing Price) * 100
+
+
+        //using LINQ
+        var stockStats = stocks
+            .GroupBy(i => i.Symbol)
+            .OrderBy(j => j.Date)
+            .Select(g => new
+            {
+                Symbol = g.Key,
+                Min = g.Min(s => s.ClosePrice),
+                Max = g.Max(s => s.ClosePrice),
+                Avg = g.Average(s => s.ClosePrice)
+            }); //objects for each group
+
+        foreach (var stat in stockStats)
+        {
+            Console.WriteLine($"Symbol: {stat.Symbol}, Min: {stat.Min}, Max: {stat.Max}, Avg: {stat.Avg}");
+        }
+
+
+        //using Dictionaries
+        Dictionary<string, List<Stock>> stockGroups = new Dictionary<string, List<Stock>>();
+
+        foreach (var stock in stocks)
+        {
+            if (!stockGroups.ContainsKey(stock.Symbol))
+            {
+                stockGroups[stock.Symbol] = new List<Stock>();
+            }
+            stockGroups[stock.Symbol].Add(stock);
+        }
+
+        foreach (var entry in stockGroups)
+        {
+            string symbol = entry.Key;
+            List<Stock> stockList = entry.Value;
+
+            double minPrice = double.MaxValue;
+            double maxPrice = double.MinValue;
+            double sum = 0;
+            int count = 0;
+
+            double lastCP = 0;
+            double firstCP = 0;
+
+            foreach (var stock in stockList)
+            {
+                if (stock.ClosePrice < minPrice) minPrice = stock.ClosePrice;
+                if (stock.ClosePrice > maxPrice) maxPrice = stock.ClosePrice;
+
+                if (firstCP == 0)
+                {
+                    firstCP = stock.ClosePrice;
+                }
+                lastCP = stock.ClosePrice;
+
+                sum += stock.ClosePrice;
+                count++;
+            }
+            double avgPrice = sum / count;
+            double performance = ((lastCP - firstCP) / firstCP) * 100;
+
+            Console.WriteLine($"Symbol: {symbol}, Min: {minPrice}, Max: {maxPrice}, Avg: {avgPrice}, Performance: {performance}");
+        }
+
+        /// 3. Identify the stock with the highest weekly performance.
+
+        foreach (var stock in stocks)
+        {
+
+        }
+
+
+        /// 4. Identify the most volatile stock (highest difference between max and min price).
 
 
 
