@@ -1,4 +1,5 @@
-﻿using SpielGuardCore;
+﻿using ArbitrageDB.DB;
+using SpielGuardCore;
 using System;
 using System.Linq;
 
@@ -19,8 +20,32 @@ namespace SQL
 
             using (ArbitrageDataContext context = new ArbitrageDataContext())
             {
-                
-                
+
+                // 1
+               var instrumentsWithMaturity = context.Instrument
+                    .Where(i => i.Maturity != null)
+                    .ToList();
+
+                // 2
+                var instrumentsSorted = context.Instrument
+                    .Where(i => i.Maturity != null)
+                    .OrderBy(i => i.Maturity)
+                    .ToList();
+
+                // 3
+                var instrumentsYesterday = context.InstrumentField
+                    .Where(i => i.recordDate == DateTime.Now.AddDays(-1).Date)
+                    .ToList();
+
+                // 4
+                var instrumentsField1 = context.Instrument.Join(
+                    context.InstrumentField,
+                    I => I.Id,
+                    IF => IF.instrumentId,
+                    (I, IF) => new { I, IF })
+                    .Where(x => x.IF.recordDate == DateTime.Now.AddDays(-1).Date && x.IF.fieldId == 1 && x.I.Maturity != null)
+                    .ToList();
+
             }
         }
     }
