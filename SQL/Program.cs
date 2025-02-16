@@ -32,10 +32,20 @@ namespace SQL
                     .OrderBy(i => i.Maturity)
                     .ToList();
 
+                foreach (var instrument in instrumentsSorted)
+                {
+                    Console.WriteLine($"Instrument ID: {instrument.Id}, Maturity: {instrument.Maturity}");
+                }
+
                 // 3
                 var instrumentsYesterday = context.InstrumentField
                     .Where(i => i.recordDate == DateTime.Now.AddDays(-1).Date)
                     .ToList();
+
+                foreach (var field in instrumentsYesterday)
+                {
+                    Console.WriteLine($"InstrumentField ID: {field.instrumentId}, Record Date: {field.recordDate}");
+                }
 
                 // 4
                 var instrumentsField1 = context.Instrument.Join(
@@ -45,6 +55,11 @@ namespace SQL
                     (I, IF) => new { I, IF })
                     .Where(x => x.IF.recordDate == DateTime.Now.AddDays(-1).Date && x.IF.fieldId == 1 && x.I.Maturity != null)
                     .ToList();
+
+                foreach (var item in instrumentsField1)
+                {
+                    Console.WriteLine($"Instrument ID: {item.I.Id}, Field ID: {item.IF.fieldId}, Record Date: {item.IF.recordDate}");
+                }
 
             }
         }

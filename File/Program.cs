@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 class Program
 {
-    public static readonly string MBCEXIPricesFilePath = @"C:\Users\User\Downloads\IVH_MBCEXI.csv";
+    public static readonly string MBCEXIPricesFilePath = @"G:\My Drive\IVH_MBCEXI.csv";
 
     // You are given a file of MBCEXI Index prices.
     // Your task is to read this file and retrieve the prices (value) field and create a line chart that represents the change in price
@@ -91,7 +91,7 @@ class Program
         chart.ChartAreas["MainArea"].AxisY.Title = "Price";
         chart.ChartAreas["MainArea"].AxisX.LabelStyle.Format = "MM-dd-yyyy"; 
         chart.ChartAreas["MainArea"].AxisX.IntervalType = DateTimeIntervalType.Auto; 
-        chart.ChartAreas["MainArea"].AxisX.Interval = 0; //Interval=0: to get best interval automatically calculated
+        chart.ChartAreas["MainArea"].AxisX.Interval = 0; //Interval=0: to get best interval (automatically calculated)
 
         chart.ChartAreas["MainArea"].AxisX.MajorGrid.LineColor = Color.LightGray; 
         chart.ChartAreas["MainArea"].AxisX.MinorGrid.LineColor = Color.LightBlue;  
@@ -100,7 +100,7 @@ class Program
 
         chart.Titles.Add("MBCEXI Price Chart");
 
-        string chartFilePath = @"C:\Users\User\Downloads\MBCEXI_Chart.png"; 
+        string chartFilePath = @"G:\My Drive\MBCEXI_Chart.png"; 
         chart.SaveImage(chartFilePath, ChartImageFormat.Png);
 
     }
