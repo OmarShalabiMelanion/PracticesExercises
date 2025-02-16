@@ -70,19 +70,26 @@ class Program
         //using LINQ
         var stockStats = stocks
             .GroupBy(i => i.Symbol)
-            .OrderBy(j => j.Date)
             .Select(g => new
             {
                 Symbol = g.Key,
                 Min = g.Min(s => s.ClosePrice),
                 Max = g.Max(s => s.ClosePrice),
-                Avg = g.Average(s => s.ClosePrice)
+                Avg = g.Average(s => s.ClosePrice),
+                First = g.OrderBy(s => s.Date).First().ClosePrice,
+                Last = g.OrderBy(s => s.Date).Last().ClosePrice,
+                Volatility = g.Max(s => s.ClosePrice) - g.Min(s => s.ClosePrice)
             }); //objects for each group
 
         foreach (var stat in stockStats)
         {
             Console.WriteLine($"Symbol: {stat.Symbol}, Min: {stat.Min}, Max: {stat.Max}, Avg: {stat.Avg}");
         }
+
+
+
+
+
 
 
         //using Dictionaries
