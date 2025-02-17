@@ -28,24 +28,34 @@ namespace SQL
 
                 // 2
                 var instrumentsSorted = context.Instrument
-                    .Where(i => i.Maturity != null)
+                    .Where(i => i.Maturity != null && i.Maturity != DateTime.MinValue)
                     .OrderBy(i => i.Maturity)
                     .ToList();
 
+                Console.WriteLine("Maturity NOT NULL and Sorted: ");
+                Console.WriteLine();
                 foreach (var instrument in instrumentsSorted)
                 {
                     Console.WriteLine($"Instrument ID: {instrument.Id}, Maturity: {instrument.Maturity}");
                 }
+                Console.WriteLine();
+                Console.WriteLine();
 
                 // 3
+                DateTime PreviouWorkday = DateTime.Now.AddDays(-3).Date;
+
                 var instrumentsYesterday = context.InstrumentField
-                    .Where(i => i.recordDate == DateTime.Now.AddDays(-1).Date)
+                    .Where(i => i.recordDate == PreviouWorkday)
                     .ToList();
 
+                Console.WriteLine("Previous Workday: ");
+                Console.WriteLine();
                 foreach (var field in instrumentsYesterday)
                 {
                     Console.WriteLine($"InstrumentField ID: {field.instrumentId}, Record Date: {field.recordDate}");
                 }
+                Console.WriteLine();
+                Console.WriteLine();
 
                 // 4
                 var instrumentsField1 = context.Instrument.Join(
@@ -53,9 +63,11 @@ namespace SQL
                     I => I.Id,
                     IF => IF.instrumentId,
                     (I, IF) => new { I, IF })
-                    .Where(x => x.IF.recordDate == DateTime.Now.AddDays(-1).Date && x.IF.fieldId == 1 && x.I.Maturity != null)
+                    .Where(x => x.IF.recordDate == PreviouWorkday && x.IF.fieldId == 1 && x.I.Maturity != null)
                     .ToList();
 
+                Console.WriteLine("FieldID = 1, Maturity NOT NULL (Joined): ");
+                Console.WriteLine();
                 foreach (var item in instrumentsField1)
                 {
                     Console.WriteLine($"Instrument ID: {item.I.Id}, Field ID: {item.IF.fieldId}, Record Date: {item.IF.recordDate}");
