@@ -76,23 +76,33 @@ class Program
                 Min = g.Min(s => s.ClosePrice),
                 Max = g.Max(s => s.ClosePrice),
                 Avg = g.Average(s => s.ClosePrice),
-                First = g.OrderBy(s => s.Date).First().ClosePrice,
-                Last = g.OrderBy(s => s.Date).Last().ClosePrice,
-                Volatility = g.Max(s => s.ClosePrice) - g.Min(s => s.ClosePrice)
+                Performance = ((g.OrderBy(s => s.Date).Last().ClosePrice - g.OrderBy(s => s.Date).First().ClosePrice)
+                        / g.OrderBy(s => s.Date).First().ClosePrice) * 100
+
+
+                //Volatility = g.Max(s => s.ClosePrice) - g.Min(s => s.ClosePrice)
             }); //objects for each group
+
+
 
         foreach (var stat in stockStats)
         {
-            Console.WriteLine($"Symbol: {stat.Symbol}, Min: {stat.Min}, Max: {stat.Max}, Avg: {stat.Avg}");
+            Console.WriteLine($"Symbol: {stat.Symbol}, Min: {stat.Min}, Max: {stat.Max}, Avg: {stat.Avg}, Performance: {stat.Performance}");
         }
 
+        /// 3. Identify the stock with the highest weekly performance.
+        /// 4. Identify the most volatile stock (highest difference between max and min price).
+        
 
 
 
 
 
 
-        //using Dictionaries
+        Console.WriteLine("Using Dictionaries: ");
+
+
+        //using Dictionaries (1+2)
         Dictionary<string, List<Stock>> stockGroups = new Dictionary<string, List<Stock>>();
 
         foreach (var stock in stocks)
@@ -136,18 +146,5 @@ class Program
 
             Console.WriteLine($"Symbol: {symbol}, Min: {minPrice}, Max: {maxPrice}, Avg: {avgPrice}, Performance: {performance}");
         }
-
-        /// 3. Identify the stock with the highest weekly performance.
-
-        foreach (var stock in stocks)
-        {
-
-        }
-
-
-        /// 4. Identify the most volatile stock (highest difference between max and min price).
-
-
-
     }
 }
