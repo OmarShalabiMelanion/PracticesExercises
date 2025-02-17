@@ -78,9 +78,7 @@ class Program
                 Avg = g.Average(s => s.ClosePrice),
                 Performance = ((g.OrderBy(s => s.Date).Last().ClosePrice - g.OrderBy(s => s.Date).First().ClosePrice)
                         / g.OrderBy(s => s.Date).First().ClosePrice) * 100
-
-
-                //Volatility = g.Max(s => s.ClosePrice) - g.Min(s => s.ClosePrice)
+                Volatility = g.Max(s => s.ClosePrice) - g.Min(s => s.ClosePrice)
             }); //objects for each group
 
 
